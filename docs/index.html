@@ -41,18 +41,21 @@ $(function(){
   media = navigator.mediaDevices.getUserMedia( data ).then( function( stream ){
     video.srcObject = stream;
 
-    //. オートフォーカスにできる？
-    var track = stream.getVideoTracks()[0];
-    //var capabilities = track.getCapabilities();
-    try{
-      track.applyConstraints({
-        advanced:[{
-          focusMode: 'auto',
-          focusDistance: 10
-        }]
-      });
-    }catch( e ){
-      console.log( e );
+    var nofocus = getParam( 'autofocus' );
+    if( !nofocus ){
+      //. オートフォーカスにできる？
+      var track = stream.getVideoTracks()[0];
+      var capabilities = track.getCapabilities();
+      try{
+        track.applyConstraints({
+          advanced:[{
+            focusMode: 'auto',
+            focusDistance: 10
+          }]
+        });
+      }catch( e ){
+        console.log( e );
+      }
     }
   }).then( function( err ){
   });
@@ -96,6 +99,16 @@ function isMobile(){
   }
 
   return b;
+}
+
+function getParam( name ){
+  var url = window.location.href;
+  name = name.replace( /[\[\]]/g, "\\$&" );
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec( url );
+  if( !results ) return null;
+  if( !results[2] ) return '';
+  return decodeURIComponent( results[2].replace(/\+/g, " ") );
 }
 </script>
 <style>
