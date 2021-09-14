@@ -46,6 +46,7 @@ $(function(){
       //. オートフォーカスにできる？
       var track = stream.getVideoTracks()[0];
       var capabilities = track.getCapabilities();
+      alert( JSON.stringify( capabilities, null, 2 ) );
       try{
         track.applyConstraints({
           advanced:[{
