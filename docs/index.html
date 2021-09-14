@@ -55,7 +55,7 @@ $(function(){
           }]
         });
       }catch( e ){
-        console.log( e );
+        console.log( JSON.stringify( e, null, 2 ) );
       }
     }
   }).then( function( err ){
